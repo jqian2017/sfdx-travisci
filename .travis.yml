@@ -17,7 +17,7 @@ before_install:
 - wget -qO- $URL | tar xJ -C sfdx --strip-components 1
 - "./sfdx/install"
 - export PATH=./sfdx/$(pwd):$PATH
-- sfdx plugins:install salesforcedx@prerelease
+- sfdx plugins:install salesforcedx@pre-release
 - sfdx --version
 - sfdx plugins --core
 - sfdx force:auth:jwt:grant --clientid $CONSUMERKEY --jwtkeyfile assets/server.key
