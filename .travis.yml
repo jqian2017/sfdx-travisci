@@ -25,8 +25,8 @@ before_install:
 script:
 - sfdx force:org:create --help  
 
-- sfdx force:org:create -t sandbox -u sandbox@gs0.com -a cisbxorg -w 60 SandboxName=jqTdx3 LicenseType=DEVELOPER 
-- sfdx force:org:status -n jqTdx3
+- sfdx force:org:create -t sandbox -u sandbox@gs0.com -a cisbxorg -w 60 SandboxName=jqTdx4 LicenseType=DEVELOPER 
+- sfdx force:org:status -n jqTdx4 -u sandbox@gs0.com -w 20
 - sfdx force:source:deploy -u cisbxorg -p force-app -w 20
 - sfdx force:apex:test:run -u cisbxorg --wait 10
 - sfdx force:org:open -u cisbxorg
@@ -38,7 +38,7 @@ script:
 #- sfdx force:org:delete -u ciorg -p
 
 after_failure:
-- sfdx force:org:status -n jqTdx3 -u sandbox@gs0.com
+- sfdx force:org:status -n jqTdx4 -u sandbox@gs0.com -w 20
 - sfdx force:source:deploy -u sandbox@gs0.com -p force-app -w 20
 - sfdx force:apex:test:run -u sandbox@gs0.com --wait 10
 - sfdx force:org:open -u sandbox@gs0.com
