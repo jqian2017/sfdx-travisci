@@ -21,12 +21,12 @@ before_install:
 - sfdx --version
 - sfdx plugins --core
 - sfdx force:auth:jwt:grant --clientid $CONSUMERKEY --jwtkeyfile assets/server.key
-  --username sandbox@gs0.com --setdefaultdevhubusername -a HubOrg
+  --username jqian-tdx2019@force.com --setdefaultdevhubusername -a HubOrg
 script:
 - sfdx force:org:create --help  
 
-- sfdx force:org:create -t sandbox -u sandbox@gs0.com -a cisbxorg -w 60 SandboxName=jqTdx2 LicenseType=DEVELOPER 
-- sfdx force:org:status -n jqTdx1
+- sfdx force:org:create -t sandbox -u sandbox@gs0.com -a cisbxorg -w 60 SandboxName=jqTdx3 LicenseType=DEVELOPER 
+- sfdx force:org:status -n jqTdx3
 - sfdx force:source:deploy -u cisbxorg -p force-app -w 20
 - sfdx force:apex:test:run -u cisbxorg --wait 10
 - sfdx force:org:open -u cisbxorg
@@ -36,3 +36,10 @@ script:
 #- sfdx force:source:push -u ciorg
 #- sfdx force:apex:test:run -u ciorg --wait 10
 #- sfdx force:org:delete -u ciorg -p
+
+after_failure:
+- sfdx force:org:status -n jqTdx3 -u sandbox@gs0.com
+- sfdx force:source:deploy -u sandbox@gs0.com -p force-app -w 20
+- sfdx force:apex:test:run -u sandbox@gs0.com --wait 10
+- sfdx force:org:open -u sandbox@gs0.com
+
