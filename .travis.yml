@@ -25,7 +25,7 @@ before_install:
 script:
 - sfdx force:org:create --help  
 
-- sfdx force:org:create -t sandbox -u sandbox@gs0.com -a cisbxorg S-w 60 andboxName=jqTdx2 LicenseType=DEVELOPER 
+- sfdx force:org:create -t sandbox -u sandbox@gs0.com -a cisbxorg -w 60 andboxName=jqTdx2 LicenseType=DEVELOPER 
 - sfdx force:org:status -n jqTdx1
 - sfdx force:source:deploy -u cisbxorg -p force-app -w 20
 - sfdx force:apex:test:run -u cisbxorg --wait 10
