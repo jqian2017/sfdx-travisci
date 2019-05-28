@@ -24,8 +24,15 @@ before_install:
   --username sandbox@gs0.com --setdefaultdevhubusername -a HubOrg
 script:
 - sfdx force:org:create --help  
-- sfdx force:org:create -v HubOrg -s -f config/project-scratch-def.json -a ciorg
-- sfdx force:org:display -u ciorg
-- sfdx force:source:push -u ciorg
-- sfdx force:apex:test:run -u ciorg --wait 10
-- sfdx force:org:delete -u ciorg -p
+
+- sfdx force:org:create -t sandbox -u sandbox@gs0.com -a cisbxorg SandboxName=jqTdx1 LicenseType=DEVELOPER 
+- sfdx force:org:status -n jqTdx1 -w 50
+- sfdx force:source:deploy -u cisbxorg -p force-app -w 20
+- sfdx force:apex:test:run -u cisbxorg --wait 10
+- sfdx force:org:open -u cisbxorg
+
+#- sfdx force:org:create -v HubOrg -s -f config/project-scratch-def.json -a ciorg
+#- sfdx force:org:display -u ciorg
+#- sfdx force:source:push -u ciorg
+#- sfdx force:apex:test:run -u ciorg --wait 10
+#- sfdx force:org:delete -u ciorg -p
