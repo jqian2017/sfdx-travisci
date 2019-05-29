@@ -14,7 +14,7 @@ before_install:
 - mkdir sfdx
 - wget -qO- $URL | tar xJ -C sfdx --strip-components 1
 
-#install SFDX CLI
+#install Salesforce CLI, Summer 19
 - "./sfdx/install"
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx plugins:install salesforcedx@pre-release
@@ -23,23 +23,22 @@ before_install:
 - sfdx plugins --core
 
 #headlessly auth into production org
-#- sfdx force:auth:jwt:grant --clientid 3MVG9SemV5D80oBfAmggXOqlP7YcMnC1pcogp6Xbf6wOkU8AGGTgeZ1_BCdKbZM.M2obAUZUaOCNpITfpUr5x --jwtkeyfile assets/server.key
-#  --username sandbox@gs0.com --setdefaultusername -a ProdOrg
+- sfdx force:auth:jwt:grant --clientid 3MVG9SemV5D80oBfAmggXOqlP7YcMnC1pcogp6Xbf6wOkU8AGGTgeZ1_BCdKbZM.M2obAUZUaOCNpITfpUr5x --jwtkeyfile assets/server.key
+  --username sandbox@gs0.com --setdefaultusername -a ProdOrg
 
-- sfdx force:auth:jwt:grant --clientid 3MVG9SemV5D80oBc6e6VuMv1rns1SCNFk2iOTL7Vxjc5QRRy6qwQqh79yUrT8pYhJHleHNJ2eyvf9Jm1vrPb. --jwtkeyfile assets/server.key
-  --username jqian-tdx2019@force.com --setdefaultusername -a ProdOrg
-
+#- sfdx force:auth:jwt:grant --clientid 3MVG9SemV5D80oBc6e6VuMv1rns1SCNFk2iOTL7Vxjc5QRRy6qwQqh79yUrT8pYhJHleHNJ2eyvf9Jm1vrPb. --jwtkeyfile assets/server.key
+#  --username jqian-tdx2019@force.com --setdefaultusername -a ProdOrg
 
 script:
 
 # create a new dev sandbox for integration testing
-- sfdx force:org:create -t sandbox -u ProdOrg SandboxName=jqTdx1 LicenseType=DEVELOPER -a cisbxorg -w 60 
+- sfdx force:org:create -t sandbox -u ProdOrg SandboxName=jqTdx3 LicenseType=DEVELOPER -a cisbxorg -w 60 
 
 # OR clone a preconfiged dev sandbox for testing
 #- sfdx force:org:clone -t sandbox -u ProdOrg SandboxName=ciclone SourceSandboxName=preConfg -a cisbxorg -w 60
 
 # monitor sandbox progression
-- sfdx force:org:status -n jqTdx1 -u ProdOrg -a cisbxorg -w 20
+- sfdx force:org:status -n jqTdx3 -u ProdOrg -a cisbxorg -w 20
 
 # deploy metadata source
 - sfdx force:source:deploy -u cisbxorg -p force-app -w 20
