@@ -13,23 +13,33 @@ before_install:
 - export SFDX_LOG_LEVEL=DEBUG
 - mkdir sfdx
 - wget -qO- $URL | tar xJ -C sfdx --strip-components 1
+
+#install SFDX CLI
 - "./sfdx/install"
 - export PATH=./sfdx/$(pwd):$PATH
 - sfdx plugins:install salesforcedx@pre-release
+
 - sfdx --version
 - sfdx plugins --core
-- sfdx force:auth:jwt:grant --clientid 3MVG9SemV5D80oBfAmggXOqlP7YcMnC1pcogp6Xbf6wOkU8AGGTgeZ1_BCdKbZM.M2obAUZUaOCNpITfpUr5x --jwtkeyfile assets/server.key
-  --username sandbox@gs0.com --setdefaultdevhubusername -a HubOrg
+
+#headlessly auth into production org
+#- sfdx force:auth:jwt:grant --clientid 3MVG9SemV5D80oBfAmggXOqlP7YcMnC1pcogp6Xbf6wOkU8AGGTgeZ1_BCdKbZM.M2obAUZUaOCNpITfpUr5x --jwtkeyfile assets/server.key
+#  --username sandbox@gs0.com --setdefaultusername -a ProdOrg
+
+- sfdx force:auth:jwt:grant --clientid 3MVG9SemV5D80oBc6e6VuMv1rns1SCNFk2iOTL7Vxjc5QRRy6qwQqh79yUrT8pYhJHleHNJ2eyvf9Jm1vrPb. --jwtkeyfile assets/server.key
+  --username jqian-tdx2019@force.com --setdefaultusername -a ProdOrg
+
+
 script:
 
 # create a new dev sandbox for integration testing
-- sfdx force:org:create -t sandbox -u sandbox@gs0.com SandboxName=jqTdx7 LicenseType=DEVELOPER -a cisbxorg -w 60 
+- sfdx force:org:create -t sandbox -u ProdOrg SandboxName=jqTdx1 LicenseType=DEVELOPER -a cisbxorg -w 60 
 
 # OR clone a preconfiged dev sandbox for testing
-#- sfdx force:org:clone -t sandbox -u jqian-tdx2019@force.com SandboxName=ciclone SourceSandboxName=preConfg -a cisbxorg -w 60
+#- sfdx force:org:clone -t sandbox -u ProdOrg SandboxName=ciclone SourceSandboxName=preConfg -a cisbxorg -w 60
 
 # monitor sandbox progression
-- sfdx force:org:status -n jqTdx7 -u sandbox@gs0.com -a cisbxorg -w 20
+- sfdx force:org:status -n jqTdx1 -u ProdOrg -a cisbxorg -w 20
 
 # deploy metadata source
 - sfdx force:source:deploy -u cisbxorg -p force-app -w 20
@@ -37,7 +47,7 @@ script:
 # OR install the package to the sandbox for package development
 # - sfdx force:package:install -p 04Txxxx -w 20
 
-# run Apex test
+# run extensive integration Apex test
 - sfdx force:apex:test:run -u cisbxorg -w 10
 
 
