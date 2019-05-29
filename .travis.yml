@@ -21,17 +21,23 @@ before_install:
 - sfdx force:auth:jwt:grant --clientid 3MVG9SemV5D80oBfAmggXOqlP7YcMnC1pcogp6Xbf6wOkU8AGGTgeZ1_BCdKbZM.M2obAUZUaOCNpITfpUr5x --jwtkeyfile assets/server.key
   --username sandbox@gs0.com --setdefaultdevhubusername -a HubOrg
 script:
-- sfdx force:org:create --help  
 
-- sfdx force:org:create -t sandbox -u sandbox@gs0.com -a cisbxorg -w 60 SandboxName=jqTdx6 LicenseType=DEVELOPER 
-- sfdx force:org:status -n jqTdx6 -u sandbox@gs0.com -a cisbxorg -w 20
+# create a new dev sandbox for integration testing
+- sfdx force:org:create -t sandbox -u sandbox@gs0.com SandboxName=jqTdx7 LicenseType=DEVELOPER -a cisbxorg -w 60 
+
+# OR clone a preconfiged dev sandbox for testing
+#- sfdx force:org:clone -t sandbox -u jqian-tdx2019@force.com SandboxName=ciclone SourceSandboxName=preConfg -a cisbxorg -w 60
+
+# monitor sandbox progression
+- sfdx force:org:status -n jqTdx7 -u sandbox@gs0.com -a cisbxorg -w 20
+
+# deploy metadata source
 - sfdx force:source:deploy -u cisbxorg -p force-app -w 20
-- sfdx force:apex:test:run -u cisbxorg --wait 10
-- sfdx force:org:open -u cisbxorg
 
-#- sfdx force:org:create -v HubOrg -s -f config/project-scratch-def.json -a ciorg
-#- sfdx force:org:display -u ciorg
-#- sfdx force:source:push -u ciorg
-#- sfdx force:apex:test:run -u ciorg --wait 10
-#- sfdx force:org:delete -u ciorg -p
+# OR install the package to the sandbox for package development
+# - sfdx force:package:install -p 04Txxxx -w 20
+
+# run Apex test
+- sfdx force:apex:test:run -u cisbxorg -w 10
+
 
