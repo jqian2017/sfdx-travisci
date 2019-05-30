@@ -32,13 +32,13 @@ before_install:
 script:
 
 # create a new dev sandbox for integration testing
-- sfdx force:org:create -t sandbox -u ProdOrg SandboxName=jqTdx8 LicenseType=DEVELOPER -a cisbxorg -w 60 
+- sfdx force:org:create -t sandbox -u ProdOrg SandboxName=jqTdx9 LicenseType=DEVELOPER -a cisbxorg -w 60 
 
 # OR clone a preconfiged dev sandbox for testing
 #- sfdx force:org:clone -t sandbox -u ProdOrg SandboxName=ciclone SourceSandboxName=preConfg -a cisbxorg -w 60
 
 # monitor sandbox progression
-- sfdx force:org:status -n jqTdx8 -u ProdOrg -a cisbxorg -w 20
+- sfdx force:org:status -n jqTdx9 -u ProdOrg -a cisbxorg -w 20
 
 # deploy metadata source
 - sfdx force:source:deploy -u cisbxorg -p force-app -w 20
